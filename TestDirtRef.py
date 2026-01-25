@@ -30,6 +30,7 @@ seeds = np.random.uniform(0, 1, 1000)
 seeds = np.random.normal(loc = muRef, scale= sigmaRef, size = 10000)
 #seeds = np.random.normal(loc = muTarg, scale= sigmaTarg, size = 1000)
 refCDF = np.cumsum(gaussianRef(x, muRef, sigmaRef)/np.sum( gaussianRef(x, muRef, sigmaRef)))
+
 seedVal = np.interp(seeds, x, refCDF)
 seedVal = gaussianRef(seeds, muRef, sigmaRef)/np.sum( gaussianRef(x, muRef, sigmaRef))
 fig, axs = plt.subplots()
@@ -50,8 +51,17 @@ axs.plot(x,gaussRatio)
 plt.show(block = True)
 ##
 
+ratioCDF = np.cumsum(gaussRatio)
 
 
+fig, axs = plt.subplots()
+axs.plot(x,ratioCDF *refCDF)
+axs.plot(x,refCDF)
+axs.plot(x,ratioCDF)
+plt.show(block = True)
+
+
+##
 
 
 
