@@ -27,7 +27,7 @@ plt.show(block = True)
 
 ## from uniform to first gaussian
 seeds = np.random.uniform(0, 1, 1000)
-seeds = np.random.normal(loc = muRef, scale= sigmaRef, size = 10000)
+#seeds = np.random.normal(loc = muRef, scale= sigmaRef, size = 10000)
 #seeds = np.random.normal(loc = muTarg, scale= sigmaTarg, size = 1000)
 refCDF = np.cumsum(gaussianRef(x, muRef, sigmaRef)/np.sum( gaussianRef(x, muRef, sigmaRef)))
 
@@ -50,16 +50,30 @@ axs.plot(x,normRef)
 axs.plot(x,gaussRatio)
 plt.show(block = True)
 ##
-
+seeds = np.random.uniform(0, 1, 10000)
 ratioCDF = np.cumsum(gaussRatio)
-
+ratioX = np.interp(seeds ,ratioCDF,x)
 
 fig, axs = plt.subplots()
-axs.plot(x,ratioCDF *refCDF)
-axs.plot(x,refCDF)
-axs.plot(x,ratioCDF)
+axs.plot(x,gaussRatio)
+axsTw = axs.twinx()
+axsTw.hist(ratioX, alpha = 0.5)
 plt.show(block = True)
 
+refCDF = np.cumsum(normRef)
+ratioXVal = np.interp(ratioX ,x,refCDF)
+fig, axs = plt.subplots()
+axs.hist(ratioXVal, alpha = 0.5)
+plt.show(block = True)
+
+refCDF = np.cumsum(normRef)
+targetX = np.interp(ratioXVal,refCDF,x)
+
+fig, axs = plt.subplots()
+axs.plot(x,normTarg)
+axsTw = axs.twinx()
+axsTw.hist(targetX, alpha = 0.5)
+plt.show(block = True)
 
 ##
 

@@ -53,8 +53,8 @@ ftt = dt.FTT(bases, tt, num_error_samples=0)
 def torch_ln_posterior(xs, inv_cov):
     output = torch.zeros(xs.shape[0])
     for i in range(xs.shape[0]):
-        output[i] = ln_posterior(xs[i, :], inv_cov)
-
+        output[i] =-torch.matmul(xs[i, :], torch.matmul(inv_cov, xs[i, :])) / 2.0
+        #output[i] = ln_posterior(xs[i, :], inv_cov)
     return output
 
 
@@ -86,3 +86,5 @@ fig, axs = plt.subplots(ndim, 1)
 for i in range(0, ndim):
     axs[i].plot(Grid[i], margPDF[i])
 plt.show()
+
+
